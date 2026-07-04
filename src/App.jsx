@@ -58,7 +58,8 @@ function App() {
               style={{
                 width: '100%',
                 height: '100%',
-                objectFit: 'contain'
+                objectFit: 'contain',
+                mixBlendMode: isIOS ? 'screen' : 'normal' // Fake transparency on iOS MP4!
               }}
             />
             <audio src="/roar.ogg" autoPlay />
