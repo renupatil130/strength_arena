@@ -60,8 +60,8 @@ function App() {
                 height: '100%',
                 objectFit: 'contain',
                 mixBlendMode: isIOS ? 'screen' : 'normal',
-                WebkitMaskImage: isIOS ? 'radial-gradient(circle, black 50%, transparent 95%)' : 'none',
-                maskImage: isIOS ? 'radial-gradient(circle, black 50%, transparent 95%)' : 'none'
+                clipPath: isIOS ? 'circle(35% at center)' : 'none',
+                WebkitClipPath: isIOS ? 'circle(35% at center)' : 'none'
               }}
             />
             <audio src="/roar.ogg" autoPlay />

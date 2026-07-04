@@ -34,7 +34,7 @@ export default function Overlay() {
     const video = videoRef.current
     if (!video) return
 
-    video.playbackRate = 0.5 // Slow down the background video
+    video.playbackRate = 0.2 // Slow down the background video even more
     video.load()
     video
       .play()
