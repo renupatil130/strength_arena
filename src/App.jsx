@@ -59,9 +59,7 @@ function App() {
                 width: '100%',
                 height: '100%',
                 objectFit: 'contain',
-                mixBlendMode: isIOS ? 'screen' : 'normal',
-                clipPath: isIOS ? 'circle(35% at center)' : 'none',
-                WebkitClipPath: isIOS ? 'circle(35% at center)' : 'none'
+                mixBlendMode: isIOS ? 'screen' : 'normal'
               }}
             />
             <audio src="/roar.ogg" autoPlay />
