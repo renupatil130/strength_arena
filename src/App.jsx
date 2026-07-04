@@ -58,9 +58,10 @@ function App() {
               style={{
                 width: '100%',
                 height: '100%',
-                objectFit: 'cover', // Cover fills the screen so there's no visible "box" edge
+                objectFit: 'contain',
                 mixBlendMode: isIOS ? 'screen' : 'normal',
-                filter: isIOS ? 'contrast(1.5) brightness(0.8)' : 'none' // Crush near-black pixels to pure black
+                WebkitMaskImage: isIOS ? 'radial-gradient(circle, black 50%, transparent 95%)' : 'none',
+                maskImage: isIOS ? 'radial-gradient(circle, black 50%, transparent 95%)' : 'none'
               }}
             />
             <audio src="/roar.ogg" autoPlay />
