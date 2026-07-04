@@ -34,16 +34,7 @@ export default function Overlay() {
     const video = videoRef.current
     if (!video) return
 
-    video.playbackRate = 0.2 // Slow down the background video even more
-    video.load()
-    video
-      .play()
-      .catch((error) => {
-        console.warn('Background video playback failed, using fallback:', error)
-        if (backgroundVideoSrc !== dummyVideo) {
-          setBackgroundVideoSrc(dummyVideo)
-        }
-      })
+    video.playbackRate = 0.2 // Slow down the background video
   }, [backgroundVideoSrc])
 
   const { scrollYProgress } = useScroll()
