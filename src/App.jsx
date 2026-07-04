@@ -10,6 +10,9 @@ import './index.css'
 function App() {
   const [showSplash, setShowSplash] = useState(true)
 
+  // Detect iOS devices (iPhone, iPad, iPod)
+  const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent)
+
   useEffect(() => {
     // Failsafe: Hide splash screen after 5 seconds if video fails to play/end
     const timer = setTimeout(() => setShowSplash(false), 5000);
@@ -46,6 +49,7 @@ function App() {
             }}
           >
             <video
+              src={isIOS ? "/strength-arena-logo.mp4" : "/strength-arena-logo.webm"}
               autoPlay
               muted
               playsInline
@@ -56,10 +60,7 @@ function App() {
                 height: '100%',
                 objectFit: 'contain'
               }}
-            >
-              <source src="/strength-arena-logo.webm" type="video/webm" />
-              <source src="/strength-arena-logo.mp4" type="video/mp4" />
-            </video>
+            />
             <audio src="/roar.ogg" autoPlay />
           </motion.div>
         )}
