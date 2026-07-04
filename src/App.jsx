@@ -46,7 +46,7 @@ function App() {
             }}
           >
             <video
-              src="/strength-arena-logo.webm"
+              src="/strength-arena-logo.mp4"
               autoPlay
               muted
               playsInline

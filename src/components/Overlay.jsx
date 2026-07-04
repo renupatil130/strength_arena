@@ -27,13 +27,24 @@ const trainers = Array(10).fill(dummyVideo)
 
 export default function Overlay() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [backgroundVideoSrc, setBackgroundVideoSrc] = useState('/background.mp4')
   const videoRef = useRef(null)
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.playbackRate = 0.5 // Slow down the background video
-    }
-  }, [])
+    const video = videoRef.current
+    if (!video) return
+
+    video.playbackRate = 0.5 // Slow down the background video
+    video.load()
+    video
+      .play()
+      .catch((error) => {
+        console.warn('Background video playback failed, using fallback:', error)
+        if (backgroundVideoSrc !== dummyVideo) {
+          setBackgroundVideoSrc(dummyVideo)
+        }
+      })
+  }, [backgroundVideoSrc])
 
   const { scrollYProgress } = useScroll()
   const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '50%'])
@@ -102,6 +113,7 @@ export default function Overlay() {
             loop 
             muted 
             playsInline 
+            preload="auto"
             style={{ 
               width: '100%', 
               height: '100%', 
@@ -111,7 +123,7 @@ export default function Overlay() {
               transformOrigin: 'bottom left'
             }}
           >
-            <source src="/background.mp4" type="video/mp4" />
+            <source src={backgroundVideoSrc} type="video/mp4" />
           </motion.video>
         </div>
         <div className="hero-gradient-overlay" />
