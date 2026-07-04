@@ -46,7 +46,6 @@ function App() {
             }}
           >
             <video
-              src="/strength-arena-logo.mp4"
               autoPlay
               muted
               playsInline
@@ -57,7 +56,10 @@ function App() {
                 height: '100%',
                 objectFit: 'contain'
               }}
-            />
+            >
+              <source src="/strength-arena-logo.webm" type="video/webm" />
+              <source src="/strength-arena-logo.mp4" type="video/mp4" />
+            </video>
             <audio src="/roar.ogg" autoPlay />
           </motion.div>
         )}
