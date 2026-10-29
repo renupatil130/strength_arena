@@ -1,32 +1,30 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { ArrowRight, CheckCircle2, Phone, Mail, MapPin, MessageCircle, Menu, X } from 'lucide-react'
+import { ArrowRight, CheckCircle2, Phone, Mail, MapPin, MessageCircle, Menu, X, ChevronLeft, ChevronRight } from 'lucide-react'
 
-const galleryImages = [
-  'https://strengtharena.in/wp-content/uploads/2025/05/1-1024x1024.jpg',
-  'https://strengtharena.in/wp-content/uploads/2025/05/2-1024x1024.jpg',
-  'https://strengtharena.in/wp-content/uploads/2025/05/3-1024x1024.jpg',
-  'https://strengtharena.in/wp-content/uploads/2025/05/4-1024x1024.jpg',
-  'https://strengtharena.in/wp-content/uploads/2025/05/5-1024x1024.jpg',
-  'https://strengtharena.in/wp-content/uploads/2025/05/6-1024x1024.jpg',
-  'https://strengtharena.in/wp-content/uploads/2025/05/7-1024x1024.jpg',
-  'https://strengtharena.in/wp-content/uploads/2025/05/8-1024x1024.jpg',
-  'https://strengtharena.in/wp-content/uploads/2025/05/9-1024x1024.jpg',
-  'https://strengtharena.in/wp-content/uploads/2025/05/10-1024x1024.jpg',
-  'https://strengtharena.in/wp-content/uploads/2025/05/11-1024x1024.jpg',
-  'https://strengtharena.in/wp-content/uploads/2025/05/12-1024x1024.jpg',
-  'https://strengtharena.in/wp-content/uploads/2025/05/13-1024x1024.jpg',
-  'https://strengtharena.in/wp-content/uploads/2025/05/IMG_3809.jpg',
-  'https://strengtharena.in/wp-content/uploads/2025/05/IMG_5990-1024x895.jpg'
-]
+const galleryImages = Array.from({ length: 14 }, (_, i) => `/facility/facility-${i + 1}.jpg`)
 
 // Dummy video URLs (using a sleek Pexels/Pixabay fitness loop or placeholder)
 const dummyVideo = "https://cdn.pixabay.com/video/2016/09/21/5460-184089938_tiny.mp4"
 const trainers = Array(10).fill(dummyVideo)
 
+const coachPhotos = Array.from({ length: 9 }, (_, i) => `/coaches/coach-${i + 1}.jpg`)
+
 export default function Overlay() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [lightboxIndex, setLightboxIndex] = useState(null)
+
+  useEffect(() => {
+    if (lightboxIndex === null) return
+    const onKey = (e) => {
+      if (e.key === 'Escape') setLightboxIndex(null)
+      if (e.key === 'ArrowRight') setLightboxIndex((i) => (i + 1) % coachPhotos.length)
+      if (e.key === 'ArrowLeft') setLightboxIndex((i) => (i - 1 + coachPhotos.length) % coachPhotos.length)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [lightboxIndex])
   const [backgroundVideoSrc, setBackgroundVideoSrc] = useState('/background.mp4')
   const videoRef = useRef(null)
 
@@ -259,7 +257,91 @@ export default function Overlay() {
               Our programs are tailored to push your limits safely and effectively, ensuring you break plateaus and achieve sustainable results. Join us and experience the difference that expert coaching, unwavering support, and a highly motivating environment can make in your life.
             </p>
           </div>
+
+          <div className="coach-grid">
+            {coachPhotos.map((src, index) => (
+              <motion.div
+                key={src}
+                className="coach-item"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, delay: (index % 3) * 0.1 }}
+                whileHover={{ y: -8 }}
+                onClick={() => setLightboxIndex(index)}
+              >
+                <img src={src} alt={`Strength Arena coach ${index + 1}`} loading="lazy" />
+              </motion.div>
+            ))}
+          </div>
+
+          <h2 className="section-title" style={{ marginTop: '4rem' }}>
+            OUR <span>CARE TAKERS</span>
+          </h2>
+          <div className="coach-grid caretaker-grid">
+            {['/caretakers/caretaker-1.jpg', '/caretakers/caretaker-2.jpg'].map((src, index) => (
+              <motion.div
+                key={src}
+                className="coach-item"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -8 }}
+                onClick={() => window.open(src, '_blank')}
+              >
+                <img src={src} alt={`Strength Arena care taker ${index + 1}`} loading="lazy" />
+              </motion.div>
+            ))}
+          </div>
+
+          <h2 className="section-title" style={{ marginTop: '4rem' }}>
+            OUR <span>RECEPTIONISTS</span>
+          </h2>
+          <div className="coach-grid caretaker-grid">
+            {['/reception/receptionist-1.jpg', '/reception/receptionist-2.jpg'].map((src, index) => (
+              <motion.div
+                key={src}
+                className="coach-item"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -8 }}
+                onClick={() => window.open(src, '_blank')}
+              >
+                <img src={src} alt={`Strength Arena receptionist ${index + 1}`} loading="lazy" />
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
+
+        {lightboxIndex !== null && (
+          <motion.div
+            className="lightbox"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            onClick={() => setLightboxIndex(null)}
+          >
+            <button id="lightbox-close" className="lightbox-btn lightbox-close" aria-label="Close" onClick={() => setLightboxIndex(null)}>
+              <X size={28} />
+            </button>
+            <button id="lightbox-prev" className="lightbox-btn lightbox-prev" aria-label="Previous" onClick={(e) => { e.stopPropagation(); setLightboxIndex((lightboxIndex - 1 + coachPhotos.length) % coachPhotos.length) }}>
+              <ChevronLeft size={36} />
+            </button>
+            <motion.img
+              key={lightboxIndex}
+              src={coachPhotos[lightboxIndex]}
+              alt={`Strength Arena coach ${lightboxIndex + 1}`}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              onClick={(e) => e.stopPropagation()}
+            />
+            <button id="lightbox-next" className="lightbox-btn lightbox-next" aria-label="Next" onClick={(e) => { e.stopPropagation(); setLightboxIndex((lightboxIndex + 1) % coachPhotos.length) }}>
+              <ChevronRight size={36} />
+            </button>
+          </motion.div>
+        )}
       </section>
 
       {/* Memberships & Group Classes Section */}
