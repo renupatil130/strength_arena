@@ -462,15 +462,15 @@ h1, h2, h3, h4, h5, h6 {
 
 .caretaker-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 320px)); justify-content: center; }
 
-/* Events (Instagram embeds) */
+/* Events (Instagram embeds) — masonry columns so cards of different heights pack with no gaps */
 .event-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
+  column-count: 3;
+  column-gap: 1.5rem;
   width: 100%;
-  align-items: start;
 }
 .event-item {
+  break-inside: avoid;
+  margin-bottom: 1.5rem;
   border-radius: 16px;
   overflow: hidden;
   background: #fff;
@@ -482,13 +482,22 @@ h1, h2, h3, h4, h5, h6 {
   border-color: #FF3278;
   box-shadow: 0 15px 40px rgba(255, 50, 120, 0.35);
 }
+.event-item .instagram-media,
 .event-item iframe {
   display: block;
-  width: 100%;
-  height: 720px;
-  border: 0;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
-@media (max-width: 480px) {
-  .event-grid { grid-template-columns: 1fr; }
-  .event-item iframe { height: 640px; }
+.event-item blockquote.instagram-media {
+  padding: 2rem;
+  text-align: center;
+  min-height: 200px;
 }
+.event-item blockquote a { color: #FF3278; font-weight: 600; }
+@media (max-width: 1024px) { .event-grid { column-count: 2; } }
+@media (max-width: 640px)  { .event-grid { column-count: 1; } }

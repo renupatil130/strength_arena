@@ -9,7 +9,24 @@ const galleryImages = Array.from({ length: 14 }, (_, i) => `/facility/facility-$
 const dummyVideo = "https://cdn.pixabay.com/video/2016/09/21/5460-184089938_tiny.mp4"
 const trainers = Array(10).fill(dummyVideo)
 
-const coachPhotos = Array.from({ length: 11 }, (_, i) => `/coaches/coach-${i + 1}.jpg`)
+function useInstagramEmbeds() {
+  useEffect(() => {
+    const process = () => window.instgrm?.Embeds?.process()
+    if (window.instgrm) { process(); return }
+    let script = document.getElementById('instagram-embed-js')
+    if (!script) {
+      script = document.createElement('script')
+      script.id = 'instagram-embed-js'
+      script.src = 'https://www.instagram.com/embed.js'
+      script.async = true
+      document.body.appendChild(script)
+    }
+    script.addEventListener('load', process)
+    return () => script.removeEventListener('load', process)
+  }, [])
+}
+
+const coachPhotos = Array.from({ length: 10 }, (_, i) => `/coaches/coach-${i + 1}.jpg`)
 
 // Instagram posts/reels from events organized by Strength Arena (shown in this order)
 const eventPosts = [
@@ -28,6 +45,7 @@ const eventPosts = [
 export default function Overlay() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState(null)
+  useInstagramEmbeds()
 
   useEffect(() => {
     if (lightboxIndex === null) return
@@ -292,10 +310,30 @@ export default function Overlay() {
           </div>
 
           <h2 className="section-title" style={{ marginTop: '4rem' }}>
+            OUR <span>MANAGER</span>
+          </h2>
+          <div className="coach-grid caretaker-grid">
+            {['/manager/manager-1.jpg'].map((src) => (
+              <motion.div
+                key={src}
+                className="coach-item"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.05 }}
+                transition={{ duration: 0.5 }}
+                whileHover={{ y: -8 }}
+                onClick={() => window.open(src, '_blank')}
+              >
+                <img src={src} alt="Strength Arena manager" loading="lazy" />
+              </motion.div>
+            ))}
+          </div>
+
+          <h2 className="section-title" style={{ marginTop: '4rem' }}>
             OUR <span>CARE TAKERS</span>
           </h2>
           <div className="coach-grid caretaker-grid">
-            {['/caretakers/caretaker-1.jpg', '/caretakers/caretaker-2.jpg'].map((src, index) => (
+            {[1, 2, 3, 4].map((n) => `/caretakers/caretaker-${n}.jpg`).map((src, index) => (
               <motion.div
                 key={src}
                 className="coach-item"
@@ -312,10 +350,10 @@ export default function Overlay() {
           </div>
 
           <h2 className="section-title" style={{ marginTop: '4rem' }}>
-            OUR <span>RECEPTIONISTS</span>
+            OUR <span>RECEPTIONIST</span>
           </h2>
           <div className="coach-grid caretaker-grid">
-            {['/reception/receptionist-1.jpg', '/reception/receptionist-2.jpg'].map((src, index) => (
+            {['/reception/receptionist-1.jpg'].map((src, index) => (
               <motion.div
                 key={src}
                 className="coach-item"
@@ -584,24 +622,14 @@ export default function Overlay() {
             EVENTS <span>ORGANIZED BY US</span>
           </h2>
           <div className="event-grid">
-            {eventPosts.map((post, index) => (
-              <motion.div
+            {eventPosts.map((post) => (
+              <div
                 key={post}
                 className="event-item"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.05 }}
-                transition={{ duration: 0.5, delay: (index % 3) * 0.1 }}
-              >
-                <iframe
-                  src={`https://www.instagram.com/${post}/embed`}
-                  title={`Strength Arena event ${index + 1}`}
-                  loading="lazy"
-                  allow="autoplay; encrypted-media; picture-in-picture; clipboard-write"
-                  allowFullScreen
-                  scrolling="no"
-                />
-              </motion.div>
+                dangerouslySetInnerHTML={{
+                  __html: `<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/${post}/" data-instgrm-version="14"><a href="https://www.instagram.com/${post}/" target="_blank" rel="noopener noreferrer">View this post on Instagram</a></blockquote>`,
+                }}
+              />
             ))}
           </div>
         </motion.div>
