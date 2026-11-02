@@ -9,7 +9,21 @@ const galleryImages = Array.from({ length: 14 }, (_, i) => `/facility/facility-$
 const dummyVideo = "https://cdn.pixabay.com/video/2016/09/21/5460-184089938_tiny.mp4"
 const trainers = Array(10).fill(dummyVideo)
 
-const coachPhotos = Array.from({ length: 9 }, (_, i) => `/coaches/coach-${i + 1}.jpg`)
+const coachPhotos = Array.from({ length: 11 }, (_, i) => `/coaches/coach-${i + 1}.jpg`)
+
+// Instagram posts/reels from events organized by Strength Arena (shown in this order)
+const eventPosts = [
+  'reel/DbP8l4zO08S',
+  'reel/DXkC5OVkiNa',
+  'reel/DWjfYOVFJRy',
+  'p/DTE19oBkkHI',
+  'reel/DdywFvEz1zN',
+  'reel/DeuZBvGz7QF',
+  'reel/DYCcKbVOsDu',
+  'reel/DX2GxtvTFru',
+  'p/DSEt-2_Eho1',
+  'reel/DR9oIrik7Dv',
+]
 
 export default function Overlay() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -56,6 +70,7 @@ export default function Overlay() {
           <a href="#trainers">TRAINERS</a>
           <a href="#memberships">MEMBERSHIPS</a>
           <a href="#facility">FACILITY</a>
+          <a href="#events">EVENTS</a>
           <a href="#contact">CONTACT</a>
         </nav>
 
@@ -87,6 +102,7 @@ export default function Overlay() {
             <a href="#trainers" onClick={() => setIsMobileMenuOpen(false)} style={{ color: 'white', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.2rem' }}>TRAINERS</a>
             <a href="#memberships" onClick={() => setIsMobileMenuOpen(false)} style={{ color: 'white', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.2rem' }}>MEMBERSHIPS</a>
             <a href="#facility" onClick={() => setIsMobileMenuOpen(false)} style={{ color: 'white', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.2rem' }}>FACILITY</a>
+            <a href="#events" onClick={() => setIsMobileMenuOpen(false)} style={{ color: 'white', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.2rem' }}>EVENTS</a>
             <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} style={{ color: 'white', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.2rem' }}>CONTACT</a>
           </motion.div>
         )}
@@ -550,6 +566,41 @@ export default function Overlay() {
                 whileHover={{ scale: 1.05 }}
               >
                 <img src={src} alt={`Facility ${index + 1}`} />
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Events Section */}
+      <section id="events" className="section" style={{ paddingBottom: '4rem', paddingTop: '4rem' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true, amount: 0.01 }}
+        >
+          <h2 className="section-title">
+            EVENTS <span>ORGANIZED BY US</span>
+          </h2>
+          <div className="event-grid">
+            {eventPosts.map((post, index) => (
+              <motion.div
+                key={post}
+                className="event-item"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.05 }}
+                transition={{ duration: 0.5, delay: (index % 3) * 0.1 }}
+              >
+                <iframe
+                  src={`https://www.instagram.com/${post}/embed`}
+                  title={`Strength Arena event ${index + 1}`}
+                  loading="lazy"
+                  allow="autoplay; encrypted-media; picture-in-picture; clipboard-write"
+                  allowFullScreen
+                  scrolling="no"
+                />
               </motion.div>
             ))}
           </div>
