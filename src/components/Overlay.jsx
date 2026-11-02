@@ -9,43 +9,26 @@ const galleryImages = Array.from({ length: 14 }, (_, i) => `/facility/facility-$
 const dummyVideo = "https://cdn.pixabay.com/video/2016/09/21/5460-184089938_tiny.mp4"
 const trainers = Array(10).fill(dummyVideo)
 
-function useInstagramEmbeds() {
-  useEffect(() => {
-    const process = () => window.instgrm?.Embeds?.process()
-    if (window.instgrm) { process(); return }
-    let script = document.getElementById('instagram-embed-js')
-    if (!script) {
-      script = document.createElement('script')
-      script.id = 'instagram-embed-js'
-      script.src = 'https://www.instagram.com/embed.js'
-      script.async = true
-      document.body.appendChild(script)
-    }
-    script.addEventListener('load', process)
-    return () => script.removeEventListener('load', process)
-  }, [])
-}
-
 const coachPhotos = Array.from({ length: 10 }, (_, i) => `/coaches/coach-${i + 1}.jpg`)
 
-// Instagram posts/reels from events organized by Strength Arena (shown in this order)
+// Instagram posts/reels from events organized by Strength Arena (shown in this order).
+// ratio = width / height of the post's media, so each card frames only the video/photo.
 const eventPosts = [
-  'reel/DbP8l4zO08S',
-  'reel/DXkC5OVkiNa',
-  'reel/DWjfYOVFJRy',
-  'p/DTE19oBkkHI',
-  'reel/DdywFvEz1zN',
-  'reel/DeuZBvGz7QF',
-  'reel/DYCcKbVOsDu',
-  'reel/DX2GxtvTFru',
-  'p/DSEt-2_Eho1',
-  'reel/DR9oIrik7Dv',
+  { post: 'reel/DbP8l4zO08S', ratio: 16 / 9 },
+  { post: 'reel/DXkC5OVkiNa', ratio: 340 / 179 },
+  { post: 'reel/DWjfYOVFJRy', ratio: 16 / 9 },
+  { post: 'p/DTE19oBkkHI', ratio: 1 },
+  { post: 'reel/DdywFvEz1zN', ratio: 4 / 5 },
+  { post: 'reel/DeuZBvGz7QF', ratio: 4 / 5 },
+  { post: 'reel/DYCcKbVOsDu', ratio: 4 / 5 },
+  { post: 'reel/DX2GxtvTFru', ratio: 4 / 5 },
+  { post: 'p/DSEt-2_Eho1', ratio: 1 },
+  { post: 'reel/DR9oIrik7Dv', ratio: 16 / 9 },
 ]
 
 export default function Overlay() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState(null)
-  useInstagramEmbeds()
 
   useEffect(() => {
     if (lightboxIndex === null) return
@@ -622,14 +605,26 @@ export default function Overlay() {
             EVENTS <span>ORGANIZED BY US</span>
           </h2>
           <div className="event-grid">
-            {eventPosts.map((post) => (
-              <div
+            {eventPosts.map(({ post, ratio }, index) => (
+              <motion.div
                 key={post}
                 className="event-item"
-                dangerouslySetInnerHTML={{
-                  __html: `<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/${post}/" data-instgrm-version="14"><a href="https://www.instagram.com/${post}/" target="_blank" rel="noopener noreferrer">View this post on Instagram</a></blockquote>`,
-                }}
-              />
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.05 }}
+                transition={{ duration: 0.5, delay: (index % 3) * 0.1 }}
+              >
+                <div className="event-media" style={{ aspectRatio: ratio }}>
+                  <iframe
+                    src={`https://www.instagram.com/${post}/embed/`}
+                    title={`Strength Arena event ${index + 1}`}
+                    loading="lazy"
+                    allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                    allowFullScreen
+                    scrolling="no"
+                  />
+                </div>
+              </motion.div>
             ))}
           </div>
         </motion.div>

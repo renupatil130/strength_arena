@@ -462,18 +462,23 @@ h1, h2, h3, h4, h5, h6 {
 
 .caretaker-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 320px)); justify-content: center; }
 
-/* Events (Instagram embeds) — masonry columns so cards of different heights pack with no gaps */
+/* Events (Instagram embeds) — equal-size cards that show only the video/photo */
 .event-grid {
-  column-count: 3;
-  column-gap: 1.5rem;
+  display: grid;
+  /* fixed 340px cards: at this width Instagram's header is exactly 54px, so the crop lines up */
+  grid-template-columns: repeat(auto-fill, 340px);
+  justify-content: center;
+  gap: 1.5rem;
   width: 100%;
 }
 .event-item {
-  break-inside: avoid;
-  margin-bottom: 1.5rem;
+  width: 340px;
+  aspect-ratio: 4 / 5;
+  display: flex;
+  align-items: center;
   border-radius: 16px;
   overflow: hidden;
-  background: #fff;
+  background: #000;
   border: 2px solid rgba(255, 50, 120, 0.4);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   transition: border-color 0.3s, box-shadow 0.3s;
@@ -482,22 +487,22 @@ h1, h2, h3, h4, h5, h6 {
   border-color: #FF3278;
   box-shadow: 0 15px 40px rgba(255, 50, 120, 0.35);
 }
-.event-item .instagram-media,
-.event-item iframe {
+/* Window the size of the post's media; the Instagram header (54px) and footer are cropped off */
+.event-media {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.event-media iframe {
+  position: absolute;
+  top: -54px;
+  left: 0;
+  width: 100%;
+  height: calc(100% + 54px + 400px);
+  border: 0;
   display: block;
-  width: 100% !important;
-  min-width: 0 !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
 }
-.event-item blockquote.instagram-media {
-  padding: 2rem;
-  text-align: center;
-  min-height: 200px;
+@media (max-width: 420px) {
+  .event-grid { grid-template-columns: 1fr; justify-items: center; }
+  .event-item { width: 100%; max-width: 340px; }
 }
-.event-item blockquote a { color: #FF3278; font-weight: 600; }
-@media (max-width: 1024px) { .event-grid { column-count: 2; } }
-@media (max-width: 640px)  { .event-grid { column-count: 1; } }
