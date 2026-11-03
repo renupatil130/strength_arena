@@ -461,6 +461,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .caretaker-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 320px)); justify-content: center; }
+/* Care takers: 4 in a row; photos are cropped to the upper 70% so cards are wider than tall */
+.caretaker-four { grid-template-columns: repeat(4, 1fr); }
+.caretaker-four .coach-item { aspect-ratio: 1086 / 1014; }
+.caretaker-four .coach-item img { object-position: top; }
+@media (max-width: 900px) { .caretaker-four { grid-template-columns: repeat(2, 1fr); } }
 
 /* Events (Instagram embeds) — equal-size cards that show only the video/photo */
 .event-grid {

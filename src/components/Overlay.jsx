@@ -9,7 +9,7 @@ const galleryImages = Array.from({ length: 14 }, (_, i) => `/facility/facility-$
 const dummyVideo = "https://cdn.pixabay.com/video/2016/09/21/5460-184089938_tiny.mp4"
 const trainers = Array(10).fill(dummyVideo)
 
-const coachPhotos = Array.from({ length: 10 }, (_, i) => `/coaches/coach-${i + 1}.jpg`)
+const coachPhotos = Array.from({ length: 11 }, (_, i) => `/coaches/coach-${i + 1}.jpg`)
 
 // Instagram posts/reels from events organized by Strength Arena (shown in this order).
 // ratio = width / height of the post's media, so each card frames only the video/photo.
@@ -315,7 +315,7 @@ export default function Overlay() {
           <h2 className="section-title" style={{ marginTop: '4rem' }}>
             OUR <span>CARE TAKERS</span>
           </h2>
-          <div className="coach-grid caretaker-grid">
+          <div className="coach-grid caretaker-four">
             {[1, 2, 3, 4].map((n) => `/caretakers/caretaker-${n}.jpg`).map((src, index) => (
               <motion.div
                 key={src}
@@ -328,6 +328,26 @@ export default function Overlay() {
                 onClick={() => window.open(src, '_blank')}
               >
                 <img src={src} alt={`Strength Arena care taker ${index + 1}`} loading="lazy" />
+              </motion.div>
+            ))}
+          </div>
+
+          <h2 className="section-title" style={{ marginTop: '4rem' }}>
+            OUR <span>SECURITY GUARD</span>
+          </h2>
+          <div className="coach-grid caretaker-grid">
+            {['/security/security-1.jpg'].map((src) => (
+              <motion.div
+                key={src}
+                className="coach-item"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.05 }}
+                transition={{ duration: 0.5 }}
+                whileHover={{ y: -8 }}
+                onClick={() => window.open(src, '_blank')}
+              >
+                <img src={src} alt="Strength Arena security guard" loading="lazy" />
               </motion.div>
             ))}
           </div>
