@@ -328,7 +328,9 @@ export default function Overlay() {
                 onClick={() => window.open(src, '_blank')}
               >
                 <img src={src} alt={`Strength Arena receptionist ${index + 1}`} loading="lazy" />
-      
+              </motion.div>
+            ))}
+          </div>
 
           <h2 className="section-title" style={{ marginTop: '4rem' }}>
             OUR <span>CARE TAKERS</span>
@@ -367,10 +369,6 @@ export default function Overlay() {
               >
                 <img src={src} alt="Strength Arena security guard" loading="lazy" />
               </motion.div>
-            ))}
-          </div>
-
-        </motion.div>
             ))}
           </div>
         </motion.div>
