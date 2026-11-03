@@ -313,6 +313,24 @@ export default function Overlay() {
           </div>
 
           <h2 className="section-title" style={{ marginTop: '4rem' }}>
+            OUR <span>RECEPTIONIST</span>
+          </h2>
+          <div className="coach-grid caretaker-grid">
+            {['/reception/receptionist-1.jpg'].map((src, index) => (
+              <motion.div
+                key={src}
+                className="coach-item"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.05 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -8 }}
+                onClick={() => window.open(src, '_blank')}
+              >
+                <img src={src} alt={`Strength Arena receptionist ${index + 1}`} loading="lazy" />
+      
+
+          <h2 className="section-title" style={{ marginTop: '4rem' }}>
             OUR <span>CARE TAKERS</span>
           </h2>
           <div className="coach-grid caretaker-four">
@@ -335,7 +353,7 @@ export default function Overlay() {
           <h2 className="section-title" style={{ marginTop: '4rem' }}>
             OUR <span>SECURITY GUARD</span>
           </h2>
-          <div className="coach-grid caretaker-grid">
+          <div className="coach-grid caretaker-grid cropped-grid">
             {['/security/security-1.jpg'].map((src) => (
               <motion.div
                 key={src}
@@ -352,23 +370,7 @@ export default function Overlay() {
             ))}
           </div>
 
-          <h2 className="section-title" style={{ marginTop: '4rem' }}>
-            OUR <span>RECEPTIONIST</span>
-          </h2>
-          <div className="coach-grid caretaker-grid">
-            {['/reception/receptionist-1.jpg'].map((src, index) => (
-              <motion.div
-                key={src}
-                className="coach-item"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.05 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -8 }}
-                onClick={() => window.open(src, '_blank')}
-              >
-                <img src={src} alt={`Strength Arena receptionist ${index + 1}`} loading="lazy" />
-              </motion.div>
+        </motion.div>
             ))}
           </div>
         </motion.div>
